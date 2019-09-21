@@ -1,0 +1,42 @@
+内容页有两个cache-control
+	有两个cache-control的，有一个是php,有一个是nginx的
+	php -> nginx -> 用户，  add-header是其中一个，是nginx这里设置的
+	另外一个在fronted/controller/RouteArgsTool.getTxtContent()里,这个是php设置的($rargs->getTxtContent())
+
+
+首页配置中proxy_pass http://wwwtemplate_cc;  域名为什么要这样写？
+	对应配置文件中upstream的wwwtemplate_cc，proxy_pass将当前请求反向代理到URL参数指定的服务器上,在这里即对应上游。
+
+
+分页做法：
+if(6 > $page){
+  $page_start = 1;
+  $page_end = 10;
+  $last_page = 1;
+  $next_page = 16;
+}else{
+  $page_start = $page-5;
+  $page_end = $page+4;
+  $last_page = $page-10;
+  $next_page = $page+10;
+}
+$page_end = ($pages<$page_end?$pages:$page_end);
+$last_page = (1 > $last_page?1:$last_page);
+$next_page = ($pages<$next_page?$pages:$next_page);
+这种做法是按前几后几做的，现在是前5后4。
+分页主要是求出几个参数：起始页，停止页，上一个跳，下一个跳。最后再根据特殊情况重新赋值。
+
+
+socket？
+socket存在于用户进程和tcp/udp之间，它封装好了tcp/udp里的东西，使用者只管调用就行了，相当于电话的原理。
+而http是基于tcp协议的，所以两者也有相似的地方。
+而Ajax在处理网络请求的时候包括以下四个步骤
+        (1)创建Xhr对象
+        (2)发出HTTP请求
+        (3)接收服务器回传的数据
+        (4)更新网页数据
+所以AJAX是基于http的一个工具        
+
+
+php const?
+const是php5.3版本以后用来定义常量的,5.3以前用define()方法定义常量
